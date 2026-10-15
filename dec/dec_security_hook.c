@@ -183,12 +183,17 @@ static int dec_path_mknod(const struct path *dir, struct dentry *dentry, umode_t
 }
 
 static int dec_path_rename(const struct path *old_dir, struct dentry *old_dentry,
-                           const struct path *new_dir, struct dentry *new_dentry,
-                           unsigned int flags)
+                           const struct path *new_dir, struct dentry *new_dentry
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
+                           , unsigned int flags
+#endif
+                           )
 {
     (void)old_dentry;
     (void)new_dentry;
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
     (void)flags;
+#endif
     int ret = 0;
 
     ret = dec_generic_path_check(old_dir, DEC_WRITE, __func__);
